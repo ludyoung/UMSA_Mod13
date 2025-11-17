@@ -1,0 +1,10 @@
+EDA BASICO olist_customers_dataset.csv
+filas: 99441
+columnas: 5
+
+NULOS POR COLUMNA
+customer_id: 0
+customer_unique_id: 0
+customer_zip_code_prefix: 0
+customer_city: 0
+customer_state: 0

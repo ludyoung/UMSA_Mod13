@@ -1,0 +1,12 @@
+EDA BASICO olist_order_reviews_dataset.csv
+filas: 99224
+columnas: 7
+
+NULOS POR COLUMNA
+review_id: 0
+order_id: 0
+review_score: 0
+review_comment_title: 87656
+review_comment_message: 58247
+review_creation_date: 0
+review_answer_timestamp: 0

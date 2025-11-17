@@ -1,0 +1,20 @@
+[2025-11-17T20:28:11.424002Z] === INICIO PIPELINE ===
+[2025-11-17T20:28:11.440243Z] STAGE Carga de datos: running - Iniciando carga de archivos
+[2025-11-17T20:28:12.639057Z] STAGE Carga de datos: success - Cargados 9 archivos
+[2025-11-17T20:28:12.694253Z] STAGE EDA: running - Iniciando EDA
+[2025-11-17T20:28:12.704892Z] EDA guardado para olist_customers_dataset.csv -> pipeline\eda_results\eda_resumen_olist_customers_dataset.csv.txt
+[2025-11-17T20:28:12.760166Z] EDA guardado para olist_geolocation_dataset.csv -> pipeline\eda_results\eda_resumen_olist_geolocation_dataset.csv.txt
+[2025-11-17T20:28:12.775393Z] EDA guardado para olist_order_items_dataset.csv -> pipeline\eda_results\eda_resumen_olist_order_items_dataset.csv.txt
+[2025-11-17T20:28:12.782393Z] EDA guardado para olist_order_payments_dataset.csv -> pipeline\eda_results\eda_resumen_olist_order_payments_dataset.csv.txt
+[2025-11-17T20:28:12.789149Z] EDA guardado para olist_order_reviews_dataset.csv -> pipeline\eda_results\eda_resumen_olist_order_reviews_dataset.csv.txt
+[2025-11-17T20:28:12.819996Z] EDA guardado para olist_orders_dataset.csv -> pipeline\eda_results\eda_resumen_olist_orders_dataset.csv.txt
+[2025-11-17T20:28:12.823997Z] EDA guardado para olist_products_dataset.csv -> pipeline\eda_results\eda_resumen_olist_products_dataset.csv.txt
+[2025-11-17T20:28:12.825002Z] EDA guardado para olist_sellers_dataset.csv -> pipeline\eda_results\eda_resumen_olist_sellers_dataset.csv.txt
+[2025-11-17T20:28:12.826001Z] EDA guardado para product_category_name_translation.csv -> pipeline\eda_results\eda_resumen_product_category_name_translation.csv.txt
+[2025-11-17T20:28:12.846510Z] STAGE EDA: success - EDA completado
+[2025-11-17T20:28:12.862509Z] STAGE Transformación: running - Iniciando transformaciones
+[2025-11-17T20:28:12.883509Z] STAGE Transformación: success - Transformación completada
+[2025-11-17T20:28:12.889443Z] STAGE Modelo: running - Entrenando modelo (placeholder)
+[2025-11-17T20:28:12.889443Z] Entrenamiento simulado completado
+[2025-11-17T20:28:12.921326Z] STAGE Modelo: success - Modelo simulado entrenado
+[2025-11-17T20:28:12.921326Z] === PIPELINE FINALIZADO ===

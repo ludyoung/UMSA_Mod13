@@ -1,0 +1,21 @@
+{
+    "last_run": "2025-11-17T20:28:12.905984Z",
+    "status": {
+        "Carga de datos": "success",
+        "EDA": "success",
+        "Transformaci\u00f3n": "success",
+        "Modelo": "success"
+    },
+    "files_rows": {
+        "olist_customers_dataset.csv": 99441,
+        "olist_geolocation_dataset.csv": 1000163,
+        "olist_order_items_dataset.csv": 112650,
+        "olist_order_payments_dataset.csv": 103886,
+        "olist_order_reviews_dataset.csv": 99224,
+        "olist_orders_dataset.csv": 99441,
+        "olist_products_dataset.csv": 32951,
+        "olist_sellers_dataset.csv": 3095,
+        "product_category_name_translation.csv": 71
+    },
+    "last_message": "2025-11-17T20:28:12.905984Z - Modelo simulado entrenado"
+}
