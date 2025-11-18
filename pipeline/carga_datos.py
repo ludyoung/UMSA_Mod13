@@ -1,54 +1,30 @@
-import os
+# pipeline/carga_datos.py
 import pandas as pd
-import hashlib
-from pipeline.utils import log, update_stage, read_hashes, write_hashes, read_state
-
-DATA_FOLDER = "dataset"
-
-def file_hash(path):
-    h = hashlib.md5()
-    with open(path, "rb") as f:
-        h.update(f.read())
-    return h.hexdigest()
+import os
+from pipeline.utils import log
 
 def ejecutar_carga():
     """
-    Carga todos los CSV en ./dataset y detecta cambios por hash.
-    Retorna dict {filename: dataframe} y dict rows {filename: rows}.
+    Carga todas las tablas de Olist en un diccionario de DataFrames
     """
-    update_stage("Carga de datos", "running", "Iniciando carga de archivos")
-    if not os.path.exists(DATA_FOLDER):
-        update_stage("Carga de datos", "error", f"Carpeta {DATA_FOLDER} no encontrada")
-        return None, {}
+    try:
+        base_path = "./dataset"
+        dfs = {
+            "customers": pd.read_csv(os.path.join(base_path, "olist_customers_dataset.csv")),
+            "geolocation": pd.read_csv(os.path.join(base_path, "olist_geolocation_dataset.csv")),
+            "order_items": pd.read_csv(os.path.join(base_path, "olist_order_items_dataset.csv")),
+            "payments": pd.read_csv(os.path.join(base_path, "olist_order_payments_dataset.csv")),
+            "reviews": pd.read_csv(os.path.join(base_path, "olist_order_reviews_dataset.csv")),
+            "orders": pd.read_csv(os.path.join(base_path, "olist_orders_dataset.csv")),
+            "products": pd.read_csv(os.path.join(base_path, "olist_products_dataset.csv")),
+            "sellers": pd.read_csv(os.path.join(base_path, "olist_sellers_dataset.csv")),
+            "category_translation": pd.read_csv(os.path.join(base_path, "product_category_name_translation.csv"))
+        }
 
-    hashes_prev = read_hashes()
-    hashes_now = {}
-    dataframes = {}
-    rows = {}
-    changed_any = False
+        rows_map = {k: len(v) for k, v in dfs.items()}
+        log(f"Tablas cargadas exitosamente: {rows_map}")
+        return dfs, rows_map
 
-    for fname in sorted(os.listdir(DATA_FOLDER)):
-        if not fname.lower().endswith(".csv"):
-            continue
-        path = os.path.join(DATA_FOLDER, fname)
-        try:
-            h = file_hash(path)
-            hashes_now[fname] = h
-            df = pd.read_csv(path)
-            dataframes[fname] = df
-            rows[fname] = int(df.shape[0])
-            if hashes_prev.get(fname) != h:
-                changed_any = True
-                log(f"CAMBIO detectado en {fname} (filas={rows[fname]})")
-        except Exception as e:
-            log(f"ERROR cargando {fname}: {e}")
-
-    # Save current hashes
-    write_hashes(hashes_now)
-
-    if not dataframes:
-        update_stage("Carga de datos", "error", "No se cargó ningún CSV")
-        return None, {}
-
-    update_stage("Carga de datos", "success", f"Cargados {len(dataframes)} archivos")
-    return dataframes, rows
+    except Exception as e:
+        log(f"Error al cargar datos: {e}")
+        return None, None

@@ -1,20 +1,13 @@
-[2025-11-17T20:28:11.424002Z] === INICIO PIPELINE ===
-[2025-11-17T20:28:11.440243Z] STAGE Carga de datos: running - Iniciando carga de archivos
-[2025-11-17T20:28:12.639057Z] STAGE Carga de datos: success - Cargados 9 archivos
-[2025-11-17T20:28:12.694253Z] STAGE EDA: running - Iniciando EDA
-[2025-11-17T20:28:12.704892Z] EDA guardado para olist_customers_dataset.csv -> pipeline\eda_results\eda_resumen_olist_customers_dataset.csv.txt
-[2025-11-17T20:28:12.760166Z] EDA guardado para olist_geolocation_dataset.csv -> pipeline\eda_results\eda_resumen_olist_geolocation_dataset.csv.txt
-[2025-11-17T20:28:12.775393Z] EDA guardado para olist_order_items_dataset.csv -> pipeline\eda_results\eda_resumen_olist_order_items_dataset.csv.txt
-[2025-11-17T20:28:12.782393Z] EDA guardado para olist_order_payments_dataset.csv -> pipeline\eda_results\eda_resumen_olist_order_payments_dataset.csv.txt
-[2025-11-17T20:28:12.789149Z] EDA guardado para olist_order_reviews_dataset.csv -> pipeline\eda_results\eda_resumen_olist_order_reviews_dataset.csv.txt
-[2025-11-17T20:28:12.819996Z] EDA guardado para olist_orders_dataset.csv -> pipeline\eda_results\eda_resumen_olist_orders_dataset.csv.txt
-[2025-11-17T20:28:12.823997Z] EDA guardado para olist_products_dataset.csv -> pipeline\eda_results\eda_resumen_olist_products_dataset.csv.txt
-[2025-11-17T20:28:12.825002Z] EDA guardado para olist_sellers_dataset.csv -> pipeline\eda_results\eda_resumen_olist_sellers_dataset.csv.txt
-[2025-11-17T20:28:12.826001Z] EDA guardado para product_category_name_translation.csv -> pipeline\eda_results\eda_resumen_product_category_name_translation.csv.txt
-[2025-11-17T20:28:12.846510Z] STAGE EDA: success - EDA completado
-[2025-11-17T20:28:12.862509Z] STAGE Transformación: running - Iniciando transformaciones
-[2025-11-17T20:28:12.883509Z] STAGE Transformación: success - Transformación completada
-[2025-11-17T20:28:12.889443Z] STAGE Modelo: running - Entrenando modelo (placeholder)
-[2025-11-17T20:28:12.889443Z] Entrenamiento simulado completado
-[2025-11-17T20:28:12.921326Z] STAGE Modelo: success - Modelo simulado entrenado
-[2025-11-17T20:28:12.921326Z] === PIPELINE FINALIZADO ===
+[2025-11-18T21:39:00.978333Z] === INICIO PIPELINE ===
+[2025-11-18T21:39:02.144872Z] Tablas cargadas exitosamente: {'customers': 99441, 'geolocation': 1000163, 'order_items': 112650, 'payments': 103886, 'reviews': 99224, 'orders': 99441, 'products': 32951, 'sellers': 3095, 'category_translation': 71}
+[2025-11-18T21:39:02.243928Z] Limpieza completada para customers
+[2025-11-18T21:39:02.770555Z] Limpieza completada para geolocation
+[2025-11-18T21:39:02.923866Z] Limpieza completada para order_items
+[2025-11-18T21:39:02.998847Z] Limpieza completada para payments
+[2025-11-18T21:39:03.165237Z] Limpieza completada para reviews
+[2025-11-18T21:39:03.513634Z] Limpieza completada para orders
+[2025-11-18T21:39:03.531139Z] Limpieza completada para products
+[2025-11-18T21:39:03.531139Z] Limpieza completada para sellers
+[2025-11-18T21:39:03.531139Z] Limpieza completada para category_translation
+[2025-11-18T21:39:12.032694Z] Features generados:
+[2025-11-18T21:39:12.047830Z] === PIPELINE FINALIZADO ===
