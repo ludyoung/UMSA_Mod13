@@ -1,9 +1,0 @@
-EDA BASICO olist_sellers_dataset.csv
-filas: 3095
-columnas: 4
-
-NULOS POR COLUMNA
-seller_id: 0
-seller_zip_code_prefix: 0
-seller_city: 0
-seller_state: 0

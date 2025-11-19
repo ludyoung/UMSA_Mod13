@@ -83,11 +83,10 @@ with col2:
     st.subheader("Estado actual del pipeline")
     state = read_state()
     # Draw DAG
-    draw_dag(state)
+    
 
-    st.markdown("### Tabla de estado")
-    st.json(state["status"])
-
+    
+   
     st.markdown("---")
     st.subheader("Gráfica: Filas anteriores vs actuales")
     # state['files_rows'] contains latest rows from last main run

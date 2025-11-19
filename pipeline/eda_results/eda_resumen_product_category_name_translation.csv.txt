@@ -1,7 +1,0 @@
-EDA BASICO product_category_name_translation.csv
-filas: 71
-columnas: 2
-
-NULOS POR COLUMNA
-product_category_name: 0
-product_category_name_english: 0
