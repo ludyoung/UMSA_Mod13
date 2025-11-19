@@ -39,8 +39,7 @@ def main():
     metricas = calcular_metricas_satisfaccion(df_master)
     print(metricas)    
     
-    log("Features generados:")
-    print(features_raw.head())
+    print(features_clean.head())
     log("=== PIPELINE FINALIZADO ===")
 
 if __name__ == "__main__":
