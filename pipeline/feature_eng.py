@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.linear_model import LinearRegression
 from pipeline.utils import log
 
 def generar_features(dfs: dict) -> pd.DataFrame:
@@ -53,21 +52,34 @@ def generar_features(dfs: dict) -> pd.DataFrame:
         "order_delivered_carrier_date",
         "order_delivered_customer_date",
         "order_estimated_delivery_date",
+        "review_creation_date",        # <- Agregamos la fecha de review
+        "review_answer_timestamp"      # <- Agregamos la fecha de respuesta del review
     ]
     for col in date_cols:
         if col in df.columns:
             df[col] = pd.to_datetime(df[col], errors="coerce")
 
+    # Fechas de entrega y retrasos
     df["delivery_time_days"] = (df["order_delivered_customer_date"] - df["order_purchase_timestamp"]).dt.days
     df["delay_vs_estimated"] = (df["order_delivered_customer_date"] - df["order_estimated_delivery_date"]).dt.days
     df["approval_delay"] = (df["order_approved_at"] - df["order_purchase_timestamp"]).dt.total_seconds() / 3600
     df["carrier_delay"] = (df["order_delivered_carrier_date"] - df["order_approved_at"]).dt.total_seconds() / 3600
     df["was_late"] = (df["delay_vs_estimated"] > 0).astype(int)
 
+    # Variables temporales de la compra
     df["purchase_month"] = df["order_purchase_timestamp"].dt.month
     df["purchase_day"] = df["order_purchase_timestamp"].dt.day
     df["purchase_weekday"] = df["order_purchase_timestamp"].dt.weekday
     df["purchase_hour"] = df["order_purchase_timestamp"].dt.hour
+
+    # -------------------------------
+    # Variables temporales de la review
+    # -------------------------------
+    df["review_year"] = df["review_creation_date"].dt.year
+    df["review_month"] = df["review_creation_date"].dt.month
+    df["review_year_month"] = df["review_creation_date"].dt.to_period("M")
+    df["review_quarter"] = df["review_creation_date"].dt.quarter
+    df["review_semester"] = (df["review_creation_date"].dt.month - 1)//6 + 1
 
     # -------------------------------
     # Features por producto
@@ -132,10 +144,13 @@ def generar_features(dfs: dict) -> pd.DataFrame:
         cust_payment_total=("pay_total", "mean"),
         cust_payment_methods=("pay_num_methods", "mean"),
         cust_installments_mean=("pay_installments_mean", "mean"),
+        # -------------------------------
+        # Agregar variable de fecha de review
+        last_review_date=("review_creation_date", "max")
     ).reset_index()
 
     # -------------------------------
-    # Features temporales (mensual, trimestral, semestral)
+    # Features temporales por ventana (mensual, trimestral, semestral)
     # -------------------------------
     log("Generando features temporales por ventana...")
     df["year_month"] = df["order_purchase_timestamp"].dt.to_period("M")
@@ -144,20 +159,16 @@ def generar_features(dfs: dict) -> pd.DataFrame:
 
     # Función auxiliar para crear features de satisfacción en ventana
     def satisfaction_window(df_window, label_prefix):
-        # clasificar clientes
-        df_window["satisfaction_label"] = np.where(df_window["review_score"] >=4, "satisfecho",
-                                          np.where(df_window["review_score"] <=2, "insatisfecho", "neutral"))
-        # contar clientes únicos por satisfacción
+        df_window["satisfaction_label"] = np.where(df_window["review_score"] >= 4, "satisfecho",
+                                          np.where(df_window["review_score"] <= 2, "insatisfecho", "neutral"))
         summary = df_window.groupby(["customer_id", "satisfaction_label"])["order_id"].count().unstack(fill_value=0)
         summary = summary.rename(columns=lambda x: f"{label_prefix}_{x}")
         return summary
 
-    # Ventanas
     monthly_features = satisfaction_window(df, "month")
     quarterly_features = satisfaction_window(df, "quarter")
     semester_features = satisfaction_window(df, "semester")
 
-    # Merge con customer_features
     customer_features = customer_features.merge(monthly_features, left_on="customer_id", right_index=True, how="left")
     customer_features = customer_features.merge(quarterly_features, left_on="customer_id", right_index=True, how="left")
     customer_features = customer_features.merge(semester_features, left_on="customer_id", right_index=True, how="left")

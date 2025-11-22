@@ -1,121 +1,121 @@
-[2025-11-19T22:18:48.196170Z] === INICIO PIPELINE ===
-[2025-11-19T22:18:49.322703Z] Tablas cargadas exitosamente: {'customers': 99441, 'geolocation': 1000163, 'order_items': 112650, 'payments': 103886, 'reviews': 99224, 'orders': 99441, 'products': 32951, 'sellers': 3095, 'category_translation': 71}
-[2025-11-19T22:18:49.332959Z] === INICIO Limpieza de tablas ===
-[2025-11-19T22:18:49.332959Z] Limpieza iniciada para customers, shape original: (99441, 5)
-[2025-11-19T22:18:49.372082Z] customers: duplicados eliminados, 99441 filas restantes
-[2025-11-19T22:18:49.407588Z] customers: columnas de texto normalizadas -> ['customer_id', 'customer_unique_id', 'customer_city', 'customer_state']
-[2025-11-19T22:18:49.437584Z] customers: nulos tratados para todas las columnas
-[2025-11-19T22:18:49.437584Z] Limpieza completada para customers, shape final: (99441, 5)
-[2025-11-19T22:18:49.437584Z] Limpieza iniciada para geolocation, shape original: (1000163, 5)
-[2025-11-19T22:18:49.730303Z] geolocation: duplicados eliminados, 738332 filas restantes
-[2025-11-19T22:18:49.870112Z] geolocation: columnas de texto normalizadas -> ['geolocation_city', 'geolocation_state']
-[2025-11-19T22:18:49.956389Z] geolocation: nulos tratados para todas las columnas
-[2025-11-19T22:18:49.957400Z] Limpieza completada para geolocation, shape final: (738332, 5)
-[2025-11-19T22:18:49.957400Z] Limpieza iniciada para order_items, shape original: (112650, 7)
-[2025-11-19T22:18:50.009157Z] order_items: duplicados eliminados, 112650 filas restantes
-[2025-11-19T22:18:50.055890Z] order_items: columnas de texto normalizadas -> ['order_id', 'product_id', 'seller_id', 'shipping_limit_date']
-[2025-11-19T22:18:50.093630Z] order_items: columnas de fecha convertidas -> ['shipping_limit_date']
-[2025-11-19T22:18:50.111305Z] order_items: nulos tratados para todas las columnas
-[2025-11-19T22:18:50.111305Z] Limpieza completada para order_items, shape final: (112650, 7)
-[2025-11-19T22:18:50.111305Z] Limpieza iniciada para payments, shape original: (103886, 5)
-[2025-11-19T22:18:50.143680Z] payments: duplicados eliminados, 103886 filas restantes
-[2025-11-19T22:18:50.177644Z] payments: columnas de texto normalizadas -> ['order_id', 'payment_type']
-[2025-11-19T22:18:50.193738Z] payments: nulos tratados para todas las columnas
-[2025-11-19T22:18:50.194981Z] Limpieza completada para payments, shape final: (103886, 5)
-[2025-11-19T22:18:50.195979Z] Limpieza iniciada para reviews, shape original: (99224, 7)
-[2025-11-19T22:18:50.256590Z] reviews: duplicados eliminados, 99224 filas restantes
-[2025-11-19T22:18:50.324296Z] reviews: columnas de texto normalizadas -> ['review_id', 'order_id', 'review_comment_title', 'review_comment_message', 'review_creation_date', 'review_answer_timestamp']
-[2025-11-19T22:18:50.365127Z] reviews: columnas de fecha convertidas -> ['review_creation_date', 'review_answer_timestamp']
-[2025-11-19T22:18:50.386204Z] reviews: nulos tratados para todas las columnas
-[2025-11-19T22:18:50.386204Z] Limpieza completada para reviews, shape final: (99224, 7)
-[2025-11-19T22:18:50.386204Z] Limpieza iniciada para orders, shape original: (99441, 8)
-[2025-11-19T22:18:50.480305Z] orders: duplicados eliminados, 99441 filas restantes
-[2025-11-19T22:18:50.586148Z] orders: columnas de texto normalizadas -> ['order_id', 'customer_id', 'order_status', 'order_purchase_timestamp', 'order_approved_at', 'order_delivered_carrier_date', 'order_delivered_customer_date', 'order_estimated_delivery_date']
-[2025-11-19T22:18:50.679539Z] orders: columnas de fecha convertidas -> ['order_purchase_timestamp', 'order_delivered_carrier_date', 'order_delivered_customer_date', 'order_estimated_delivery_date']
-[2025-11-19T22:18:50.814226Z] orders: nulos tratados para todas las columnas
-[2025-11-19T22:18:50.815234Z] Limpieza completada para orders, shape final: (99441, 8)
-[2025-11-19T22:18:50.816114Z] Limpieza iniciada para products, shape original: (32951, 9)
-[2025-11-19T22:18:50.824917Z] products: duplicados eliminados, 32951 filas restantes
-[2025-11-19T22:18:50.831451Z] products: columnas de texto normalizadas -> ['product_id', 'product_category_name']
-[2025-11-19T22:18:50.836550Z] products: nulos tratados para todas las columnas
-[2025-11-19T22:18:50.839673Z] Limpieza completada para products, shape final: (32951, 9)
-[2025-11-19T22:18:50.839673Z] Limpieza iniciada para sellers, shape original: (3095, 4)
-[2025-11-19T22:18:50.839673Z] sellers: duplicados eliminados, 3095 filas restantes
-[2025-11-19T22:18:50.839673Z] sellers: columnas de texto normalizadas -> ['seller_id', 'seller_city', 'seller_state']
-[2025-11-19T22:18:50.839673Z] sellers: nulos tratados para todas las columnas
-[2025-11-19T22:18:50.839673Z] Limpieza completada para sellers, shape final: (3095, 4)
-[2025-11-19T22:18:50.845588Z] Limpieza iniciada para category_translation, shape original: (71, 2)
-[2025-11-19T22:18:50.846190Z] category_translation: duplicados eliminados, 71 filas restantes
-[2025-11-19T22:18:50.847224Z] category_translation: columnas de texto normalizadas -> ['product_category_name', 'product_category_name_english']
-[2025-11-19T22:18:50.847224Z] category_translation: nulos tratados para todas las columnas
-[2025-11-19T22:18:50.847224Z] Limpieza completada para category_translation, shape final: (71, 2)
-[2025-11-19T22:18:50.848194Z] === FIN Limpieza de tablas ===
-[2025-11-19T22:18:50.848194Z] === INICIO Feature Engineering Avanzado ===
-[2025-11-19T22:18:50.848194Z] Cargando tablas base...
-[2025-11-19T22:18:50.849194Z] Realizando merge global...
-[2025-11-19T22:18:51.429069Z] Dataset base creado con shape (119143, 39)
-[2025-11-19T22:18:51.429996Z] Procesando variables temporales...
-[2025-11-19T22:18:51.618675Z] Generando features por producto...
-[2025-11-19T22:18:53.737219Z] Generando features del vendedor...
-[2025-11-19T22:18:53.811750Z] Generando features de pago...
-[2025-11-19T22:18:53.952269Z] Generando features agregados por cliente...
-[2025-11-19T22:19:01.955040Z] Generando features temporales por ventana...
-[2025-11-19T22:19:02.345420Z] Generando features avanzados (polinomiales y ratios)...
-[2025-11-19T22:19:02.355465Z] Total features generados: 41
-[2025-11-19T22:19:02.355465Z] Entrenando modelo para selección de features...
-[2025-11-19T22:19:37.628797Z] Shape final de feature table: (99441, 32)
-[2025-11-19T22:19:37.628797Z] === FIN Feature Engineering Avanzado ===
-[2025-11-19T22:19:37.649830Z] === INICIO Feature Engineering Avanzado ===
-[2025-11-19T22:19:37.650563Z] Cargando tablas base...
-[2025-11-19T22:19:37.650563Z] Realizando merge global...
-[2025-11-19T22:19:38.239470Z] Dataset base creado con shape (119143, 39)
-[2025-11-19T22:19:38.240182Z] Procesando variables temporales...
-[2025-11-19T22:19:38.471353Z] Generando features por producto...
-[2025-11-19T22:19:40.683440Z] Generando features del vendedor...
-[2025-11-19T22:19:40.750187Z] Generando features de pago...
-[2025-11-19T22:19:40.890532Z] Generando features agregados por cliente...
-[2025-11-19T22:19:49.378515Z] Generando features temporales por ventana...
-[2025-11-19T22:19:49.770560Z] Generando features avanzados (polinomiales y ratios)...
-[2025-11-19T22:19:49.778858Z] Total features generados: 41
-[2025-11-19T22:19:49.778858Z] Entrenando modelo para selección de features...
-[2025-11-19T22:20:25.403594Z] Shape final de feature table: (99441, 32)
-[2025-11-19T22:20:25.404478Z] === FIN Feature Engineering Avanzado ===
-[2025-11-19T22:20:25.418735Z] === INICIO Limpieza de features ===
-[2025-11-19T22:20:25.439516Z] customer_id: nulos rellenados con 'unknown'
-[2025-11-19T22:20:25.439516Z] log_cust_review_mean: nulos rellenados con mediana=1.791759469228055
-[2025-11-19T22:20:25.439516Z] cust_review_std: nulos rellenados con mediana=0.0
-[2025-11-19T22:20:25.444951Z] quarter_neutral: nulos rellenados con mediana=0.0
-[2025-11-19T22:20:25.444951Z] semester_neutral: nulos rellenados con mediana=0.0
-[2025-11-19T22:20:25.444951Z] month_neutral: nulos rellenados con mediana=0.0
-[2025-11-19T22:20:25.449797Z] cust_avg_price_x_cust_installments_mean: nulos rellenados con mediana=138.0
-[2025-11-19T22:20:25.449797Z] log_cust_avg_delivery: nulos rellenados con mediana=2.3978952727983707
-[2025-11-19T22:20:25.449797Z] cust_avg_delivery: nulos rellenados con mediana=10.0
-[2025-11-19T22:20:25.449797Z] cust_avg_freight: nulos rellenados con mediana=16.36
-[2025-11-19T22:20:25.449797Z] cust_avg_weekday: nulos rellenados con mediana=3.0
-[2025-11-19T22:20:25.449797Z] semester_satisfecho: nulos rellenados con mediana=1.0
-[2025-11-19T22:20:25.460226Z] cust_total_spent_x_cust_installments_mean: nulos rellenados con mediana=150.0
-[2025-11-19T22:20:25.460226Z] cust_total_spent_x_cust_late_ratio: nulos rellenados con mediana=0.0
-[2025-11-19T22:20:25.460226Z] cust_num_good_reviews: nulos rellenados con mediana=1.0
-[2025-11-19T22:20:25.460226Z] cust_avg_price: nulos rellenados con mediana=79.0
-[2025-11-19T22:20:25.460226Z] log_cust_total_spent: nulos rellenados con mediana=4.499809670330265
-[2025-11-19T22:20:25.466829Z] cust_avg_freight_x_cust_avg_delivery: nulos rellenados con mediana=170.10000000000002
-[2025-11-19T22:20:25.466829Z] cust_avg_month: nulos rellenados con mediana=6.0
-[2025-11-19T22:20:25.470878Z] cust_installments_mean: nulos rellenados con mediana=2.0
-[2025-11-19T22:20:25.470878Z] cust_avg_hour: nulos rellenados con mediana=15.0
-[2025-11-19T22:20:25.470878Z] cust_num_products: nulos rellenados con mediana=1.0
-[2025-11-19T22:20:25.476287Z] cust_avg_delay: nulos rellenados con mediana=-12.0
-[2025-11-19T22:20:25.476287Z] cust_avg_price_x_cust_late_ratio: nulos rellenados con mediana=0.0
-[2025-11-19T22:20:25.478292Z] cust_total_spent_x_cust_avg_delivery: nulos rellenados con mediana=838.8000000000001
-[2025-11-19T22:20:25.481170Z] cust_avg_price_x_cust_avg_delivery: nulos rellenados con mediana=749.85
-[2025-11-19T22:20:25.481170Z] quarter_satisfecho: nulos rellenados con mediana=1.0
-[2025-11-19T22:20:25.481170Z] cust_avg_freight_x_cust_installments_mean: nulos rellenados con mediana=28.88
-[2025-11-19T22:20:25.481170Z] cust_total_orders: nulos rellenados con mediana=1.0
-[2025-11-19T22:20:25.481170Z] cust_late_ratio: nulos rellenados con mediana=0.0
-[2025-11-19T22:20:25.481170Z] month_insatisfecho: nulos rellenados con mediana=0.0
-[2025-11-19T22:20:25.492505Z] cust_review_mean: nulos rellenados con mediana=5.0
-[2025-11-19T22:20:25.492505Z] === FIN Limpieza de features ===
-[2025-11-19T22:20:25.492505Z] Creando master table...
-[2025-11-19T22:20:26.648948Z] Master table creada con 99441 filas y 32 columnas
-[2025-11-19T22:20:26.896247Z] === INICIO Cálculo de métricas de satisfacción ===
-[2025-11-19T22:20:26.904562Z] === FIN Cálculo de métricas de satisfacción ===
-[2025-11-19T22:20:26.924754Z] === PIPELINE FINALIZADO ===
+[2025-11-22T14:39:33.284016Z] === INICIO PIPELINE ===
+[2025-11-22T14:39:35.522640Z] Tablas cargadas exitosamente: {'customers': 99441, 'geolocation': 1000163, 'order_items': 112650, 'payments': 103886, 'reviews': 99224, 'orders': 99441, 'products': 32951, 'sellers': 3095, 'category_translation': 71}
+[2025-11-22T14:39:35.522640Z] === INICIO Limpieza de tablas ===
+[2025-11-22T14:39:35.522640Z] Limpieza iniciada para customers, shape original: (99441, 5)
+[2025-11-22T14:39:35.593996Z] customers: duplicados eliminados, 99441 filas restantes
+[2025-11-22T14:39:35.701151Z] customers: columnas de texto normalizadas -> ['customer_id', 'customer_unique_id', 'customer_city', 'customer_state']
+[2025-11-22T14:39:35.734493Z] customers: nulos tratados para todas las columnas
+[2025-11-22T14:39:35.734493Z] Limpieza completada para customers, shape final: (99441, 5)
+[2025-11-22T14:39:35.750187Z] Limpieza iniciada para geolocation, shape original: (1000163, 5)
+[2025-11-22T14:39:36.272663Z] geolocation: duplicados eliminados, 738332 filas restantes
+[2025-11-22T14:39:36.576457Z] geolocation: columnas de texto normalizadas -> ['geolocation_city', 'geolocation_state']
+[2025-11-22T14:39:36.713722Z] geolocation: nulos tratados para todas las columnas
+[2025-11-22T14:39:36.713722Z] Limpieza completada para geolocation, shape final: (738332, 5)
+[2025-11-22T14:39:36.713722Z] Limpieza iniciada para order_items, shape original: (112650, 7)
+[2025-11-22T14:39:36.834340Z] order_items: duplicados eliminados, 112650 filas restantes
+[2025-11-22T14:39:36.952011Z] order_items: columnas de texto normalizadas -> ['order_id', 'product_id', 'seller_id', 'shipping_limit_date']
+[2025-11-22T14:39:37.059188Z] order_items: columnas de fecha convertidas -> ['shipping_limit_date']
+[2025-11-22T14:39:37.097410Z] order_items: nulos tratados para todas las columnas
+[2025-11-22T14:39:37.100248Z] Limpieza completada para order_items, shape final: (112650, 7)
+[2025-11-22T14:39:37.100248Z] Limpieza iniciada para payments, shape original: (103886, 5)
+[2025-11-22T14:39:37.172077Z] payments: duplicados eliminados, 103886 filas restantes
+[2025-11-22T14:39:37.234642Z] payments: columnas de texto normalizadas -> ['order_id', 'payment_type']
+[2025-11-22T14:39:37.274061Z] payments: nulos tratados para todas las columnas
+[2025-11-22T14:39:37.278079Z] Limpieza completada para payments, shape final: (103886, 5)
+[2025-11-22T14:39:37.280088Z] Limpieza iniciada para reviews, shape original: (99224, 7)
+[2025-11-22T14:39:37.397417Z] reviews: duplicados eliminados, 99224 filas restantes
+[2025-11-22T14:39:37.605050Z] reviews: columnas de texto normalizadas -> ['review_id', 'order_id', 'review_comment_title', 'review_comment_message', 'review_creation_date', 'review_answer_timestamp']
+[2025-11-22T14:39:37.671512Z] reviews: columnas de fecha convertidas -> ['review_creation_date', 'review_answer_timestamp']
+[2025-11-22T14:39:37.712046Z] reviews: nulos tratados para todas las columnas
+[2025-11-22T14:39:37.712046Z] Limpieza completada para reviews, shape final: (99224, 7)
+[2025-11-22T14:39:37.712046Z] Limpieza iniciada para orders, shape original: (99441, 8)
+[2025-11-22T14:39:37.923809Z] orders: duplicados eliminados, 99441 filas restantes
+[2025-11-22T14:39:38.122349Z] orders: columnas de texto normalizadas -> ['order_id', 'customer_id', 'order_status', 'order_purchase_timestamp', 'order_approved_at', 'order_delivered_carrier_date', 'order_delivered_customer_date', 'order_estimated_delivery_date']
+[2025-11-22T14:39:38.297719Z] orders: columnas de fecha convertidas -> ['order_purchase_timestamp', 'order_delivered_carrier_date', 'order_delivered_customer_date', 'order_estimated_delivery_date']
+[2025-11-22T14:39:38.594001Z] orders: nulos tratados para todas las columnas
+[2025-11-22T14:39:38.594001Z] Limpieza completada para orders, shape final: (99441, 8)
+[2025-11-22T14:39:38.594001Z] Limpieza iniciada para products, shape original: (32951, 9)
+[2025-11-22T14:39:38.618007Z] products: duplicados eliminados, 32951 filas restantes
+[2025-11-22T14:39:38.637246Z] products: columnas de texto normalizadas -> ['product_id', 'product_category_name']
+[2025-11-22T14:39:38.655197Z] products: nulos tratados para todas las columnas
+[2025-11-22T14:39:38.655197Z] Limpieza completada para products, shape final: (32951, 9)
+[2025-11-22T14:39:38.657206Z] Limpieza iniciada para sellers, shape original: (3095, 4)
+[2025-11-22T14:39:38.661875Z] sellers: duplicados eliminados, 3095 filas restantes
+[2025-11-22T14:39:38.661875Z] sellers: columnas de texto normalizadas -> ['seller_id', 'seller_city', 'seller_state']
+[2025-11-22T14:39:38.669076Z] sellers: nulos tratados para todas las columnas
+[2025-11-22T14:39:38.669076Z] Limpieza completada para sellers, shape final: (3095, 4)
+[2025-11-22T14:39:38.669076Z] Limpieza iniciada para category_translation, shape original: (71, 2)
+[2025-11-22T14:39:38.669076Z] category_translation: duplicados eliminados, 71 filas restantes
+[2025-11-22T14:39:38.669076Z] category_translation: columnas de texto normalizadas -> ['product_category_name', 'product_category_name_english']
+[2025-11-22T14:39:38.675082Z] category_translation: nulos tratados para todas las columnas
+[2025-11-22T14:39:38.675082Z] Limpieza completada para category_translation, shape final: (71, 2)
+[2025-11-22T14:39:38.675082Z] === FIN Limpieza de tablas ===
+[2025-11-22T14:39:38.675082Z] === INICIO Feature Engineering Avanzado ===
+[2025-11-22T14:39:38.675082Z] Cargando tablas base...
+[2025-11-22T14:39:38.675082Z] Realizando merge global...
+[2025-11-22T14:39:39.598487Z] Dataset base creado con shape (119143, 39)
+[2025-11-22T14:39:39.600502Z] Procesando variables temporales...
+[2025-11-22T14:39:40.115265Z] Generando features por producto...
+[2025-11-22T14:39:44.803768Z] Generando features del vendedor...
+[2025-11-22T14:39:44.942235Z] Generando features de pago...
+[2025-11-22T14:39:45.198410Z] Generando features agregados por cliente...
+[2025-11-22T14:40:04.056098Z] Generando features temporales por ventana...
+[2025-11-22T14:40:04.864012Z] Generando features avanzados (polinomiales y ratios)...
+[2025-11-22T14:40:04.879283Z] Total features generados: 42
+[2025-11-22T14:40:04.881291Z] Entrenando modelo para selección de features...
+[2025-11-22T14:41:23.536390Z] Shape final de feature table: (99441, 32)
+[2025-11-22T14:41:23.536390Z] === FIN Feature Engineering Avanzado ===
+[2025-11-22T14:41:23.583870Z] === INICIO Feature Engineering Avanzado ===
+[2025-11-22T14:41:23.583870Z] Cargando tablas base...
+[2025-11-22T14:41:23.583870Z] Realizando merge global...
+[2025-11-22T14:41:24.567884Z] Dataset base creado con shape (119143, 39)
+[2025-11-22T14:41:24.570676Z] Procesando variables temporales...
+[2025-11-22T14:41:25.028978Z] Generando features por producto...
+[2025-11-22T14:41:29.420235Z] Generando features del vendedor...
+[2025-11-22T14:41:29.552008Z] Generando features de pago...
+[2025-11-22T14:41:29.832841Z] Generando features agregados por cliente...
+[2025-11-22T14:41:49.313884Z] Generando features temporales por ventana...
+[2025-11-22T14:41:50.172247Z] Generando features avanzados (polinomiales y ratios)...
+[2025-11-22T14:41:50.190942Z] Total features generados: 42
+[2025-11-22T14:41:50.193072Z] Entrenando modelo para selección de features...
+[2025-11-22T14:43:05.195610Z] Shape final de feature table: (99441, 32)
+[2025-11-22T14:43:05.195610Z] === FIN Feature Engineering Avanzado ===
+[2025-11-22T14:43:05.235734Z] === INICIO Limpieza de features ===
+[2025-11-22T14:43:05.282534Z] customer_id: nulos rellenados con 'unknown'
+[2025-11-22T14:43:05.289434Z] log_cust_review_mean: nulos rellenados con mediana=1.791759469228055
+[2025-11-22T14:43:05.317573Z] cust_review_std: nulos rellenados con mediana=0.0
+[2025-11-22T14:43:05.340385Z] quarter_neutral: nulos rellenados con mediana=0.0
+[2025-11-22T14:43:05.352615Z] semester_neutral: nulos rellenados con mediana=0.0
+[2025-11-22T14:43:05.355633Z] month_neutral: nulos rellenados con mediana=0.0
+[2025-11-22T14:43:05.362419Z] cust_avg_price_x_cust_installments_mean: nulos rellenados con mediana=138.0
+[2025-11-22T14:43:05.367554Z] cust_avg_freight: nulos rellenados con mediana=16.36
+[2025-11-22T14:43:05.371574Z] cust_avg_price: nulos rellenados con mediana=79.0
+[2025-11-22T14:43:05.376537Z] cust_avg_freight_x_cust_avg_delivery: nulos rellenados con mediana=170.10000000000002
+[2025-11-22T14:43:05.379719Z] cust_total_spent: nulos rellenados con mediana=89.0
+[2025-11-22T14:43:05.379719Z] cust_avg_freight_x_cust_installments_mean: nulos rellenados con mediana=28.88
+[2025-11-22T14:43:05.387900Z] cust_total_spent_x_cust_installments_mean: nulos rellenados con mediana=150.0
+[2025-11-22T14:43:05.501008Z] last_review_date: nulos rellenados con 'unknown'
+[2025-11-22T14:43:05.501008Z] cust_avg_month: nulos rellenados con mediana=6.0
+[2025-11-22T14:43:05.501008Z] log_cust_total_spent: nulos rellenados con mediana=4.499809670330265
+[2025-11-22T14:43:05.514727Z] quarter_satisfecho: nulos rellenados con mediana=1.0
+[2025-11-22T14:43:05.517208Z] cust_late_ratio: nulos rellenados con mediana=0.0
+[2025-11-22T14:43:05.517208Z] cust_num_good_reviews: nulos rellenados con mediana=1.0
+[2025-11-22T14:43:05.517208Z] cust_payment_methods: nulos rellenados con mediana=1.0
+[2025-11-22T14:43:05.517208Z] cust_num_products: nulos rellenados con mediana=1.0
+[2025-11-22T14:43:05.517208Z] cust_avg_freight_x_cust_late_ratio: nulos rellenados con mediana=0.0
+[2025-11-22T14:43:05.532099Z] cust_total_spent_x_cust_late_ratio: nulos rellenados con mediana=0.0
+[2025-11-22T14:43:05.537084Z] cust_payment_total: nulos rellenados con mediana=110.24
+[2025-11-22T14:43:05.539735Z] month_satisfecho: nulos rellenados con mediana=1.0
+[2025-11-22T14:43:05.547260Z] cust_avg_price_x_cust_avg_delivery: nulos rellenados con mediana=749.85
+[2025-11-22T14:43:05.554050Z] cust_num_bad_reviews: nulos rellenados con mediana=0.0
+[2025-11-22T14:43:05.559030Z] cust_total_orders: nulos rellenados con mediana=1.0
+[2025-11-22T14:43:05.565785Z] log_cust_avg_delivery: nulos rellenados con mediana=2.3978952727983707
+[2025-11-22T14:43:05.570023Z] cust_avg_weekday: nulos rellenados con mediana=3.0
+[2025-11-22T14:43:05.574863Z] cust_avg_delivery: nulos rellenados con mediana=10.0
+[2025-11-22T14:43:05.581394Z] cust_review_mean: nulos rellenados con mediana=5.0
+[2025-11-22T14:43:05.581394Z] === FIN Limpieza de features ===
+[2025-11-22T14:43:05.583403Z] Creando master table...
+[2025-11-22T14:43:08.424956Z] Master table creada con 99441 filas y 32 columnas
+[2025-11-22T14:43:08.937347Z] === INICIO Cálculo de métricas de satisfacción ===
+[2025-11-22T14:43:08.952138Z] === FIN Cálculo de métricas de satisfacción ===
+[2025-11-22T14:43:08.990450Z] === PIPELINE FINALIZADO ===
