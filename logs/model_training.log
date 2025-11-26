@@ -8,3 +8,15 @@
 2025-11-26 16:12:18,968 - INFO - Train shape: (78938, 27), Test shape: (19735, 27)
 2025-11-26 16:12:23,197 - INFO - LR mejores params: {'model__fit_intercept': True, 'model__n_jobs': None}
 2025-11-26 16:12:23,197 - INFO - LR CV MSE=0.6525, R2=0.6401
+2025-11-26 16:23:15,643 - INFO - RF mejores params: {'model__max_depth': 10, 'model__n_estimators': 300}
+2025-11-26 16:23:15,644 - INFO - RF CV MSE=0.1692, R2=0.9067
+2025-11-26 16:27:45,340 - INFO - GB mejores params: {'model__learning_rate': 0.2, 'model__n_estimators': 100}
+2025-11-26 16:27:45,340 - INFO - GB CV MSE=0.1689, R2=0.9069
+2025-11-26 16:28:58,723 - INFO - XGB mejores params: {'model__learning_rate': 0.1, 'model__max_depth': 4, 'model__n_estimators': 200}
+2025-11-26 16:28:58,723 - INFO - XGB CV MSE=0.1681, R2=0.9073
+2025-11-26 16:28:58,747 - INFO - MEJOR MODELO: XGBoost
+2025-11-26 16:28:58,748 - INFO - MSE CV=0.1681
+2025-11-26 16:28:58,748 - INFO - MSE TEST=0.1684
+2025-11-26 16:28:58,748 - INFO - R2 TEST=0.9068
+2025-11-26 16:28:58,753 - INFO - Modelo guardado: best_model.pkl
+2025-11-26 16:28:58,754 - INFO - === FIN ENTRENAMIENTO ===

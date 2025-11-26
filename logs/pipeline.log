@@ -126,3 +126,4 @@
 [2025-11-26T20:12:18.574139Z] === FIN Cálculo de métricas de satisfacción ===
 [2025-11-26T20:12:18.575168Z] ======================================= ENTRENAMIENTO DEL MODELO =================================
 [2025-11-26T20:12:18.575762Z] Entrenando modelo de predicción de satisfacción...
+[2025-11-26T20:28:58.763497Z] === PIPELINE FINALIZADO ===
