@@ -1,0 +1,21 @@
+2025-11-26 16:04:19,915 - INFO - === INICIO ENTRENAMIENTO DE MODELOS ===
+2025-11-26 16:04:19,915 - INFO - Intentando leer archivo: ./output/master_table.csv
+2025-11-26 16:04:20,134 - INFO - CSV cargado. Shape: (99441, 32)
+2025-11-26 16:04:20,134 - INFO - Columna detectada correctamente: last_review_date
+2025-11-26 16:04:20,134 - INFO - Columna detectada correctamente: cust_review_mean
+2025-11-26 16:04:20,137 - INFO - Filas con 'unknown': 768
+2025-11-26 16:04:20,151 - INFO - Shape luego de filtrar unknown: (98673, 32)
+2025-11-26 16:04:20,151 - INFO - Iniciando conversión de fechas...
+2025-11-26 16:04:20,159 - INFO - Conversión de fecha completada
+2025-11-26 16:04:20,167 - INFO - Intentando eliminar columnas innecesarias
+2025-11-26 16:04:20,174 - INFO - Columnas eliminadas correctamente
+2025-11-26 16:04:20,174 - INFO - Separando X e y...
+2025-11-26 16:04:20,179 - INFO - Identificando columnas numéricas y categóricas...
+2025-11-26 16:04:20,184 - INFO - Numéricas (25): ['quarter_neutral', 'semester_neutral', 'month_neutral', 'cust_avg_price_x_cust_installments_mean', 'cust_avg_freight', 'cust_avg_price', 'cust_avg_freight_x_cust_avg_delivery', 'cust_total_spent', 'cust_avg_freight_x_cust_installments_mean', 'cust_total_spent_x_cust_installments_mean', 'cust_avg_month', 'log_cust_total_spent', 'quarter_satisfecho', 'cust_late_ratio', 'cust_payment_methods', 'cust_num_products', 'cust_avg_freight_x_cust_late_ratio', 'cust_total_spent_x_cust_late_ratio', 'cust_payment_total', 'month_satisfecho', 'cust_avg_price_x_cust_avg_delivery', 'cust_total_orders', 'log_cust_avg_delivery', 'cust_avg_weekday', 'cust_avg_delivery']
+2025-11-26 16:04:20,184 - INFO - Categóricas (0): []
+2025-11-26 16:04:20,184 - INFO - Definiendo preprocessor...
+2025-11-26 16:04:20,184 - INFO - Realizando train_test_split...
+2025-11-26 16:04:20,202 - INFO - Train: (78938, 27), Test: (19735, 27)
+2025-11-26 16:04:20,202 - INFO - Entrenando LinearRegression...
+2025-11-26 16:04:24,066 - INFO - LinearRegression entrenado correctamente
+2025-11-26 16:04:24,066 - INFO - === FIN ENTRENAMIENTO DE MODELOS ===
