@@ -1,7 +1,8 @@
 {
-  "enabled": false,
-  "frequency": "manual", 
-  "hour": 0,
-  "minute": 0,
-  "weekday": 0
+    "enabled": true,
+    "frequency": "hourly",
+    "hour": 14,
+    "minute": 0,
+    "weekday": 0,
+    "day": 1
 }

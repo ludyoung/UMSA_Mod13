@@ -14,14 +14,14 @@ def limpiar_datos(dfs: dict) -> dict:
             log(f"[WARN] {name} no es DataFrame, se salta")
             continue
 
-        log(f"Limpieza iniciada para {name}, shape original: {df.shape}")
+        # log(f"Limpieza iniciada para {name}, shape original: {df.shape}")
         df = df.copy()
 
         # ==========================
         # 1. Eliminar duplicados
         # ==========================
         df = df.drop_duplicates()
-        log(f"{name}: duplicados eliminados, {df.shape[0]} filas restantes")
+        # log(f"{name}: duplicados eliminados, {df.shape[0]} filas restantes")
 
         # ==========================
         # 2. Normalización de textos
@@ -30,7 +30,7 @@ def limpiar_datos(dfs: dict) -> dict:
         for col in obj_cols:
             df[col] = df[col].astype(str).str.strip()
         if obj_cols:
-            log(f"{name}: columnas de texto normalizadas -> {obj_cols}")
+           log(f"{name}: columnas de texto normalizadas -> {obj_cols}")
 
         # ==========================
         # 3. Conversión de fechas
@@ -39,7 +39,7 @@ def limpiar_datos(dfs: dict) -> dict:
         for col in fecha_cols:
             df[col] = pd.to_datetime(df[col], errors="coerce")
         if fecha_cols:
-            log(f"{name}: columnas de fecha convertidas -> {fecha_cols}")
+           log(f"{name}: columnas de fecha convertidas -> {fecha_cols}")
 
         # ==========================
         # 4. Manejo de nulos
@@ -50,10 +50,10 @@ def limpiar_datos(dfs: dict) -> dict:
                 df[col] = df[col].fillna(mediana)
             else:
                 df[col] = df[col].fillna("unknown")
-        log(f"{name}: nulos tratados para todas las columnas")
+        # log(f"{name}: nulos tratados para todas las columnas")
 
         dfs_clean[name] = df
-        log(f"Limpieza completada para {name}, shape final: {df.shape}")
+        # log(f"Limpieza completada para {name}, shape final: {df.shape}")
 
     log("=== FIN Limpieza de tablas ===")
     return dfs_clean

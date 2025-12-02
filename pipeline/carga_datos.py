@@ -4,9 +4,6 @@ import os
 from pipeline.utils import log
 
 def ejecutar_carga():
-    """
-    Carga todas las tablas de Olist en un diccionario de DataFrames
-    """
     try:
         base_path = "./dataset"
         dfs = {
@@ -20,11 +17,10 @@ def ejecutar_carga():
             "sellers": pd.read_csv(os.path.join(base_path, "olist_sellers_dataset.csv")),
             "category_translation": pd.read_csv(os.path.join(base_path, "product_category_name_translation.csv"))
         }
-
         rows_map = {k: len(v) for k, v in dfs.items()}
-        log(f"Tablas cargadas exitosamente: {rows_map}")
+        log(f"============== Tablas cargadas exitosamente: {rows_map}")
         return dfs, rows_map
 
     except Exception as e:
-        log(f"Error al cargar datos: {e}")
+        log(f"!! ============== Error al cargar datos: {e}")
         return None, None

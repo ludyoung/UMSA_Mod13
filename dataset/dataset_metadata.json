@@ -1,0 +1,38 @@
+{
+    "olist_customers_dataset.csv": {
+        "size": 9033957,
+        "mtime": 1763395541.315052
+    },
+    "olist_geolocation_dataset.csv": {
+        "size": 61273883,
+        "mtime": 1763395541.6152208
+    },
+    "olist_orders_dataset.csv": {
+        "size": 17654914,
+        "mtime": 1763395542.000942
+    },
+    "olist_order_items_dataset.csv": {
+        "size": 15438671,
+        "mtime": 1763395541.7262924
+    },
+    "olist_order_payments_dataset.csv": {
+        "size": 5777138,
+        "mtime": 1763395541.7735312
+    },
+    "olist_order_reviews_dataset.csv": {
+        "size": 14451670,
+        "mtime": 1763395541.883602
+    },
+    "olist_products_dataset.csv": {
+        "size": 2379446,
+        "mtime": 1763395542.0243094
+    },
+    "olist_sellers_dataset.csv": {
+        "size": 174703,
+        "mtime": 1763395542.0323112
+    },
+    "product_category_name_translation.csv": {
+        "size": 2613,
+        "mtime": 1763395542.039884
+    }
+}

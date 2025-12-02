@@ -1,81 +1,173 @@
 import pandas as pd
 import numpy as np
-import logging
 from pathlib import Path
-from sklearn.model_selection import GridSearchCV, train_test_split
+from datetime import datetime
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+from sklearn.model_selection import GridSearchCV
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.pipeline import Pipeline
 from sklearn.metrics import mean_squared_error, r2_score
-from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
-from sklearn.linear_model import LinearRegression
+
 import joblib
 
+# =========================================================
+# XGBoost
+# =========================================================
 try:
     from xgboost import XGBRegressor
     HAS_XGB = True
-except Exception as e:
+except Exception:
     HAS_XGB = False
 
 
-# ----------------------------------------------------------
-# LOGGER
-# ----------------------------------------------------------
-def setup_logger():
-    logger = logging.getLogger("model_training")
-    logger.setLevel(logging.INFO)
-
-    Path("logs").mkdir(exist_ok=True)
-    fh = logging.FileHandler("logs/pipeline.log", mode="w", encoding="utf-8")
-    fmt = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
-    fh.setFormatter(fmt)
-
-    if not logger.handlers:
-        logger.addHandler(fh)
-
-    return logger
+# =========================================================
+# LOGGING
+# =========================================================
+LOG_PATH = Path("logs/pipeline.log")
+LOG_PATH.parent.mkdir(exist_ok=True)
 
 
-# ----------------------------------------------------------
-# TRAINING PIPELINE
-# ----------------------------------------------------------
+def write_log(level, msg):
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    line = f"{timestamp} - {level} - {msg}\n"
+    with open(LOG_PATH, "a", encoding="utf-8") as f:
+        f.write(line)
+
+
+# =========================================================
+# GRID DE HIPERPARÁMETROS XGB
+# =========================================================
+def build_xgb_param_grid():
+    return {
+        "model__n_estimators": [400, 600],
+        "model__max_depth": [4, 6, 8],
+        "model__learning_rate": [0.05, 0.1],
+        "model__subsample": [0.8, 1.0],
+        "model__colsample_bytree": [0.8, 1.0]
+    }
+
+
+# =========================================================
+# ENTRENAMIENTO XGBOOST
+# =========================================================
+def run_xgb_training(preprocessor, X_train, y_train):
+    if not HAS_XGB:
+        raise RuntimeError("XGBoost no está instalado.")
+
+    xgb_pipe = Pipeline([
+        ("prep", preprocessor),
+        ("model", XGBRegressor(
+            random_state=42,
+            n_jobs=-1,
+            objective="reg:squarederror"
+        ))
+    ])
+
+    param_grid = build_xgb_param_grid()
+    write_log("INFO", f"Grid Search XGB: {param_grid}")
+
+    search = GridSearchCV(
+        xgb_pipe,
+        param_grid,
+        cv=5,
+        scoring={"mse": "neg_mean_squared_error", "r2": "r2"},
+        refit="mse",
+        n_jobs=-1
+    )
+    search.fit(X_train, y_train)
+
+    idx = search.best_index_
+    best_mse = -search.cv_results_["mean_test_mse"][idx]
+    best_r2 = search.cv_results_["mean_test_r2"][idx]
+
+    write_log("INFO", f"Mejores hiperparámetros XGB: {search.best_params_}")
+    write_log("INFO", f"CV MSE={best_mse:.4f}, CV R2={best_r2:.4f}")
+
+    results_df = pd.DataFrame({
+        "model": ["XGBoost"],
+        "best_params": [search.best_params_],
+        "mse": [best_mse],
+        "r2": [best_r2]
+    })
+
+    return search.best_estimator_, results_df
+
+
+# =========================================================
+# GRAFICAR MÉTRICAS
+# =========================================================
+def plot_xgb_results(results_df):
+    output_dir = Path("./Images/RESULTADOS")
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    try:
+        mse_val = results_df["mse"].iloc[0]
+        r2_val = results_df["r2"].iloc[0]
+    except Exception as e:
+        write_log("ERROR", f"Error leyendo métricas para graficar: {e}")
+        return
+
+    plt.figure(figsize=(7, 5))
+    sns.barplot(x=["MSE", "R2"], y=[mse_val, r2_val])
+    plt.title("Desempeño del Modelo XGBoost")
+    plt.ylabel("Valor")
+    plt.tight_layout()
+
+    out_path = output_dir / "xgb_metrics.png"
+    plt.savefig(out_path, dpi=300)
+    plt.close()
+
+    write_log("INFO", f"Gráfico de métricas guardado en: {out_path}")
+
+
+# =========================================================
+# PIPELINE PRINCIPAL
+# =========================================================
 def run_training_pipeline():
-    data_path="output/master_table.csv"
-    logger = setup_logger()
-    logger.info("=== INICIO ENTRENAMIENTO DE MODELOS ===")
-    logger.info(f"Leyendo archivo: {data_path}")
 
-    data_path = Path(data_path)
+    write_log("INFO", "=== INICIO ENTRENAMIENTO XGBOOST ===")
 
-    # ------------------------------------------------------
-    # CARGA DE CSV
-    # ------------------------------------------------------
+    data_path = Path("./output/master_table.csv")
+
     try:
         df = pd.read_csv(data_path)
-        logger.info(f"CSV cargado correctamente. Shape: {df.shape}")
+        write_log("INFO", f"Cargado master_table. Shape: {df.shape}")
     except Exception as e:
-        logger.error(f"ERROR cargando CSV: {e}")
-        return None, None
+        write_log("ERROR", f"Error cargando CSV: {e}")
+        return None, None, None
+        
+    df["last_review_date"] = df["last_review_date"].astype(str).str.strip()
 
-    # ------------------------------------------------------
-    # FILTRO unknown
-    # ------------------------------------------------------
-    mask_unknown = df["last_review_date"].eq("unknown")
-    logger.info(f"Filas con unknown: {mask_unknown.sum()}")
-
-    df = df.loc[~mask_unknown].copy()
-    logger.info(f"Shape tras filtro unknown: {df.shape}")
-
-    # ------------------------------------------------------
-    # PREPROCESO FECHA
-    # ------------------------------------------------------
+    # Reemplazar valores no válidos conocidos por NaN
+    df["last_review_date"] = df["last_review_date"].replace(
+        ["", "nan", "None", "null", "Null", "UNKNOWN", "Unknown", "unknown", "UNK", "unk", "Unk"],
+        pd.NA
+    )
+    # Convertir a fecha (todo lo que falle queda en NaT)
     df["last_review_date"] = pd.to_datetime(df["last_review_date"], errors="coerce")
+
+    # Rellenar todo lo que sea inválido o NaT con la fecha requerida
+    df["last_review_date"] = df["last_review_date"].fillna(pd.to_datetime("2018-07-15"))
+    write_log("INFO","---------------- SPLIT TEMPORAL ----------------")    
+    # ---------------- SPLIT TEMPORAL ----------------
+    train_mask = (df["last_review_date"] >= "2016-10-01") & (df["last_review_date"] <= "2018-01-31")
+    test_mask  = (df["last_review_date"] >= "2018-02-01") & (df["last_review_date"] <= "2018-06-30")
+    pred_mask  = (df["last_review_date"] >= "2018-07-01") & (df["last_review_date"] <= "2018-08-31")
+
+    df_train = df.loc[train_mask].copy()
+    df_test  = df.loc[test_mask].copy()
+    df_pred  = df.loc[pred_mask].copy()
+
+    write_log("INFO", f"Train: {df_train.shape}, Test: {df_test.shape}, Predicción futura: {df_pred.shape}")
+
+    # ---------------- FEATURE ENGINEERING ----------------
     df["last_review_year"] = df["last_review_date"].dt.year
     df["last_review_month"] = df["last_review_date"].dt.month
 
-    # ------------------------------------------------------
-    # DROP COLUMNAS
-    # ------------------------------------------------------
     cols_drop = [
         "last_review_date",
         "customer_id",
@@ -85,236 +177,66 @@ def run_training_pipeline():
         "cust_num_bad_reviews"
     ]
 
-    df = df.drop(columns=[c for c in cols_drop if c in df.columns], errors="ignore")
+    df_train = df_train.drop(columns=[c for c in cols_drop if c in df_train.columns])
+    df_test  = df_test.drop(columns=[c for c in cols_drop if c in df_test.columns])
+    
 
-    # ------------------------------------------------------
-    # SPLIT X / y
-    # ------------------------------------------------------
     target_col = "cust_review_mean"
-    X = df.drop(columns=[target_col])
-    y = df[target_col]
 
-    # ------------------------------------------------------
-    # TIPOS DE VARIABLES
-    # ------------------------------------------------------
-    numeric_cols = X.select_dtypes(include=["int64", "float64"]).columns.tolist()
-    categorical_cols = X.select_dtypes(include=["object"]).columns.tolist()
+    X_train = df_train.drop(columns=[target_col])
+    y_train = df_train[target_col]
 
-    logger.info(f"Columnas numéricas: {numeric_cols}")
-    logger.info(f"Columnas categóricas: {categorical_cols}")
+    X_test = df_test.drop(columns=[target_col])
+    y_test = df_test[target_col]
 
-    # ------------------------------------------------------
-    # PREPROCESSOR
-    # ------------------------------------------------------
-    numeric_transformer = Pipeline([("scaler", StandardScaler())])
-    categorical_transformer = Pipeline([("encoder", OneHotEncoder(handle_unknown="ignore"))])
+    X_pred = df_pred.drop(columns=[target_col], errors="ignore")
+    y_real_pred = df_pred[target_col] if target_col in df_pred.columns else None
 
-    preprocessor = ColumnTransformer(
-        transformers=[
-            ("num", numeric_transformer, numeric_cols),
-            ("cat", categorical_transformer, categorical_cols)
-        ]
-    )
+    numeric_cols = X_train.select_dtypes(include=["number"]).columns
+    categorical_cols = X_train.select_dtypes(include=["object", "category"]).columns
 
-    # ------------------------------------------------------
-    # TRAIN TEST SPLIT
-    # ------------------------------------------------------
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.2, random_state=42, shuffle=True
-    )
-    logger.info(f"Train shape: {X_train.shape}, Test shape: {X_test.shape}")
-
-    results = []
-    best_model = None
-    best_model_name = None
-    best_mse = np.inf
-
-    # ----------------------------------------------------------
-    # 1. LINEAR REGRESSION
-    # ----------------------------------------------------------
-    lr_pipe = Pipeline([
-        ("prep", preprocessor),
-        ("model", LinearRegression())
+    preprocessor = ColumnTransformer([
+        ("num", StandardScaler(), numeric_cols),
+        ("cat", OneHotEncoder(handle_unknown="ignore"), categorical_cols)
     ])
 
-    lr_grid = {
-        "model__fit_intercept": [True, False],
-        "model__n_jobs": [None, -1]
-    }
+    # ---------------- ENTRENAMIENTO ----------------
+    best_model, results_df = run_xgb_training(preprocessor, X_train, y_train)
 
-    lr_search = GridSearchCV(
-        lr_pipe, lr_grid, cv=5,
-        scoring={"mse": "neg_mean_squared_error", "r2": "r2"},
-        refit="mse",
-        n_jobs=-1
-    )
-    lr_search.fit(X_train, y_train)
+    # ---------------- GUARDAR GRÁFICO ----------------
+    plot_xgb_results(results_df)
 
-    idx = lr_search.best_index_
-    lr_mse = -lr_search.cv_results_["mean_test_mse"][idx]
-    lr_r2 = lr_search.cv_results_["mean_test_r2"][idx]
+    # ---------------- MÉTRICAS DE TEST ----------------
+    y_pred_test = best_model.predict(X_test)
+    test_mse = mean_squared_error(y_test, y_pred_test)
+    test_r2 = r2_score(y_test, y_pred_test)
 
-    logger.info(f"LR mejores params: {lr_search.best_params_}")
-    logger.info(f"LR CV MSE={lr_mse:.4f}, R2={lr_r2:.4f}")
+    write_log("INFO", f"TEST MSE={test_mse:.4f}")
+    write_log("INFO", f"TEST R2={test_r2:.4f}")
 
-    results.append({
-        "model": "LinearRegression",
-        "mse": lr_mse,
-        "r2": lr_r2,
-        "best_params": lr_search.best_params_
+    # ---------------- PREDICCIÓN JUL–AGO 2018 ----------------
+    y_pred_future = best_model.predict(X_pred)
+
+    comparison_df = pd.DataFrame({
+        "fecha": df_pred["last_review_date"].dt.strftime("%Y-%m-%d"),
+        "real": y_real_pred.values,
+        "prediccion": y_pred_future
     })
 
-    if lr_mse < best_mse:
-        best_mse = lr_mse
-        best_model = lr_search.best_estimator_
-        best_model_name = "LinearRegression"
+    write_log("INFO", "Comparación futura generada para 07–08/2018")
 
-    # ----------------------------------------------------------
-    # 2. RANDOM FOREST
-    # ----------------------------------------------------------
-    rf_pipe = Pipeline([
-        ("prep", preprocessor),
-        ("model", RandomForestRegressor(random_state=42, n_jobs=-1))
-    ])
+    # ---------------- GUARDAR MODELO ----------------
+    model_path = "./output/best_model_XGBOOST.pkl"
+    joblib.dump(best_model, model_path)
+    write_log("INFO", f"Modelo XGBoost guardado en: {model_path}")
 
-    rf_grid = {
-        "model__n_estimators": [100, 200, 300],
-        "model__max_depth": [None, 10, 20]
-    }
+    write_log("INFO", "=== FIN PIPELINE XGBOOST ===")
 
-    rf_search = GridSearchCV(
-        rf_pipe, rf_grid, cv=5,
-        scoring={"mse": "neg_mean_squared_error", "r2": "r2"},
-        refit="mse",
-        n_jobs=-1
-    )
-    rf_search.fit(X_train, y_train)
+    return best_model, results_df, comparison_df
 
-    idx = rf_search.best_index_
-    rf_mse = -rf_search.cv_results_["mean_test_mse"][idx]
-    rf_r2 = rf_search.cv_results_["mean_test_r2"][idx]
 
-    logger.info(f"RF mejores params: {rf_search.best_params_}")
-    logger.info(f"RF CV MSE={rf_mse:.4f}, R2={rf_r2:.4f}")
-
-    results.append({
-        "model": "RandomForest",
-        "mse": rf_mse,
-        "r2": rf_r2,
-        "best_params": rf_search.best_params_
-    })
-
-    if rf_mse < best_mse:
-        best_mse = rf_mse
-        best_model = rf_search.best_estimator_
-        best_model_name = "RandomForest"
-
-    # ----------------------------------------------------------
-    # 3. GRADIENT BOOSTING
-    # ----------------------------------------------------------
-    gb_pipe = Pipeline([
-        ("prep", preprocessor),
-        ("model", GradientBoostingRegressor(random_state=42))
-    ])
-
-    gb_grid = {
-        "model__n_estimators": [100, 200, 300],
-        "model__learning_rate": [0.05, 0.1, 0.2]
-    }
-
-    gb_search = GridSearchCV(
-        gb_pipe, gb_grid, cv=5,
-        scoring={"mse": "neg_mean_squared_error", "r2": "r2"},
-        refit="mse",
-        n_jobs=-1
-    )
-    gb_search.fit(X_train, y_train)
-
-    idx = gb_search.best_index_
-    gb_mse = -gb_search.cv_results_["mean_test_mse"][idx]
-    gb_r2 = gb_search.cv_results_["mean_test_r2"][idx]
-
-    logger.info(f"GB mejores params: {gb_search.best_params_}")
-    logger.info(f"GB CV MSE={gb_mse:.4f}, R2={gb_r2:.4f}")
-
-    results.append({
-        "model": "GradientBoosting",
-        "mse": gb_mse,
-        "r2": gb_r2,
-        "best_params": gb_search.best_params_
-    })
-
-    if gb_mse < best_mse:
-        best_mse = gb_mse
-        best_model = gb_search.best_estimator_
-        best_model_name = "GradientBoosting"
-
-    # ----------------------------------------------------------
-    # 4. XGBOOST (solo si disponible)
-    # ----------------------------------------------------------
-    if HAS_XGB:
-        xgb_pipe = Pipeline([
-            ("prep", preprocessor),
-            ("model", XGBRegressor(
-                random_state=42,
-                n_jobs=-1,
-                objective="reg:squarederror"
-            ))
-        ])
-
-        xgb_grid = {
-            "model__n_estimators": [200, 400, 600],
-            "model__max_depth": [4, 6, 8],
-            "model__learning_rate": [0.05, 0.1, 0.2]
-        }
-
-        xgb_search = GridSearchCV(
-            xgb_pipe, xgb_grid, cv=5,
-            scoring={"mse": "neg_mean_squared_error", "r2": "r2"},
-            refit="mse",
-            n_jobs=-1
-        )
-        xgb_search.fit(X_train, y_train)
-
-        idx = xgb_search.best_index_
-        xgb_mse = -xgb_search.cv_results_["mean_test_mse"][idx]
-        xgb_r2 = xgb_search.cv_results_["mean_test_r2"][idx]
-
-        logger.info(f"XGB mejores params: {xgb_search.best_params_}")
-        logger.info(f"XGB CV MSE={xgb_mse:.4f}, R2={xgb_r2:.4f}")
-
-        results.append({
-            "model": "XGBoost",
-            "mse": xgb_mse,
-            "r2": xgb_r2,
-            "best_params": xgb_search.best_params_
-        })
-
-        if xgb_mse < best_mse:
-            best_mse = xgb_mse
-            best_model = xgb_search.best_estimator_
-            best_model_name = "XGBoost"
-
-    # ----------------------------------------------------------
-    # EVALUACIÓN EN TEST
-    # ----------------------------------------------------------
-    y_pred = best_model.predict(X_test)
-    test_mse = mean_squared_error(y_test, y_pred)
-    test_r2 = r2_score(y_test, y_pred)
-
-    logger.info(f"MEJOR MODELO: {best_model_name}")
-    logger.info(f"MSE CV={best_mse:.4f}")
-    logger.info(f"MSE TEST={test_mse:.4f}")
-    logger.info(f"R2 TEST={test_r2:.4f}")
-
-    # ----------------------------------------------------------
-    # GUARDAR MODELO
-    # ----------------------------------------------------------
-    joblib.dump(best_model, "best_model.pkl")
-    logger.info("Modelo guardado: best_model.pkl")
-
-    results_df = pd.DataFrame(results)
-
-    logger.info("=== FIN ENTRENAMIENTO ===")
-
-    return best_model, results_df
+# =========================================================
+# EJECUCIÓN DIRECTA
+# =========================================================
+if __name__ == "__main__":
+    run_training_pipeline()
