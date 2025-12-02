@@ -1,72 +1,73 @@
 Imagen jer�rquica guardada en: Images\FEATURES\resumen_features_hierarchy.png
 PELINE ==========================
-[2025-12-02T19:23:22.753721Z] ============== Tablas cargadas exitosamente: {'customers': 99441, 'geolocation': 1000163, 'order_items': 112650, 'payments': 103886, 'reviews': 99224, 'orders': 99441, 'products': 32951, 'sellers': 3095, 'category_translation': 71}
-[2025-12-02T19:23:22.753721Z] ======================================= LIMPIEZA =================================
-[2025-12-02T19:23:22.753721Z] === INICIO Limpieza de tablas ===
-[2025-12-02T19:23:22.836905Z] customers: columnas de texto normalizadas -> ['customer_id', 'customer_unique_id', 'customer_city', 'customer_state']
-[2025-12-02T19:23:23.216127Z] geolocation: columnas de texto normalizadas -> ['geolocation_city', 'geolocation_state']
-[2025-12-02T19:23:23.379477Z] order_items: columnas de texto normalizadas -> ['order_id', 'product_id', 'seller_id', 'shipping_limit_date']
-[2025-12-02T19:23:23.409713Z] order_items: columnas de fecha convertidas -> ['shipping_limit_date']
-[2025-12-02T19:23:23.466060Z] payments: columnas de texto normalizadas -> ['order_id', 'payment_type']
-[2025-12-02T19:23:23.612845Z] reviews: columnas de texto normalizadas -> ['review_id', 'order_id', 'review_comment_title', 'review_comment_message', 'review_creation_date', 'review_answer_timestamp']
-[2025-12-02T19:23:23.647122Z] reviews: columnas de fecha convertidas -> ['review_creation_date', 'review_answer_timestamp']
-[2025-12-02T19:23:23.830026Z] orders: columnas de texto normalizadas -> ['order_id', 'customer_id', 'order_status', 'order_purchase_timestamp', 'order_approved_at', 'order_delivered_carrier_date', 'order_delivered_customer_date', 'order_estimated_delivery_date']
-[2025-12-02T19:23:23.907069Z] orders: columnas de fecha convertidas -> ['order_purchase_timestamp', 'order_delivered_carrier_date', 'order_delivered_customer_date', 'order_estimated_delivery_date']
-[2025-12-02T19:23:24.077365Z] products: columnas de texto normalizadas -> ['product_id', 'product_category_name']
-[2025-12-02T19:23:24.086365Z] sellers: columnas de texto normalizadas -> ['seller_id', 'seller_city', 'seller_state']
-[2025-12-02T19:23:24.088379Z] category_translation: columnas de texto normalizadas -> ['product_category_name', 'product_category_name_english']
-[2025-12-02T19:23:24.089367Z] === FIN Limpieza de tablas ===
-[2025-12-02T19:23:24.089367Z] ======================================= FEATURE ENGINEERING ======================
-[2025-12-02T19:23:24.089367Z] === INICIO Feature Engineering Avanzado ===
-[2025-12-02T19:23:24.090365Z] Cargando tablas base...
-[2025-12-02T19:23:24.674697Z] Procesando variables temporales y retrasos...
-[2025-12-02T19:23:24.932284Z] Generando features por producto...
-[2025-12-02T19:23:51.293182Z] Generando features del vendedor...
-[2025-12-02T19:23:53.827447Z] Generando features de pagos...
-[2025-12-02T19:23:54.467235Z] Generando features por cliente y reviews...
-[2025-12-02T19:24:09.546679Z] Shape total combinando todas las tablas: filas=99441, features totales=108
-[2025-12-02T19:24:09.548956Z] === FIN Feature Engineering Avanzado ===
-[2025-12-02T19:24:09.562459Z] ======================================= LIMPIEZA FEATURES ========================
-[2025-12-02T19:24:09.563115Z] === INICIO Limpieza de features ===
-[2025-12-02T19:24:09.720181Z] Valores nulos reemplazados correctamente
-[2025-12-02T19:24:12.780549Z] Boxplot guardado en: Images\DATAFRAME\boxplot_variables_numericas.png
-[2025-12-02T19:24:13.821893Z] Heatmap de correlación guardado en: Images\DATAFRAME\heatmap_correlacion.png
-[2025-12-02T19:24:13.822890Z] === FIN Limpieza de features ===
-[2025-12-02T19:24:13.824887Z] ======================================= MASTER TABLE =============================
-[2025-12-02T19:24:13.866903Z] ======================================= EXPORTACION DE MASTER TABLE ==============
-[2025-12-02T19:24:15.473186Z] Master table creada con 99441 filas y 39 columnas
-[2025-12-02T19:24:15.475194Z] ======================================= PREPROCESO MASTER TABLE ==================
-[2025-12-02T19:24:16.549901Z] ======================================= CALCULO DE METRICAS ======================
-[2025-12-02T19:24:16.549901Z] ===== CÁLCULO MÉTRICAS =====
-[2025-12-02T19:24:16.549901Z] === INICIO Cálculo de métricas de satisfacción ===
-[2025-12-02T19:24:16.551905Z] Validaciones iniciales: OK
-[2025-12-02T19:24:16.551905Z] Checkpoint 1: Validaciones completas, iniciando cálculos...
-[2025-12-02T19:24:16.865414Z] Cálculo global: total_clientes=99441, mean=4.0938, std=1.3434
-[2025-12-02T19:24:16.866400Z] Checkpoint 2: Cálculos globales completados.
-[2025-12-02T19:24:17.171494Z] Clasificación de clientes aplicada correctamente.
-[2025-12-02T19:24:17.173518Z] Checkpoint 3: Clasificación completada.
-[2025-12-02T19:24:17.479417Z] CSAT=0.7723, NPS=62.70
-[2025-12-02T19:24:17.479417Z] Checkpoint 4: Métricas CSAT & NPS completadas.
-[2025-12-02T19:24:17.784697Z] Cálculo de correlaciones completado.
-[2025-12-02T19:24:17.785681Z] Checkpoint 5: Todas las métricas calculadas correctamente.
-[2025-12-02T19:24:18.094223Z] === FIN Cálculo de métricas de satisfacción ===
-[2025-12-02T19:24:18.095200Z] ===== GRÁFICO MÉTRICAS =====
-[2025-12-02T19:24:18.096208Z] === INICIO Gráfico de métricas de satisfacción ===
-[2025-12-02T19:24:18.303714Z] Imagen guardada en ./Images/RESULTADOS/metricas_barras.png
-[2025-12-02T19:24:18.304715Z] === FIN Gráfico de métricas de satisfacción ===
-[2025-12-02T19:24:18.305714Z] ======================================= ENTRENAMIENTO DEL MODELO =================
-[2025-12-02T19:24:18.306729Z] Entrenando modelo de predicción de satisfacción...
-2025-12-02 15:24:18 - INFO - === INICIO ENTRENAMIENTO XGBOOST ===
-2025-12-02 15:24:18 - INFO - Cargado master_table. Shape: (99441, 39)
-2025-12-02 15:24:18 - INFO - ---------------- SPLIT TEMPORAL ----------------
-2025-12-02 15:24:18 - INFO - Train: (48883, 39), Test: (35195, 39), Predicción futura: (15363, 39)
-2025-12-02 15:24:18 - INFO - Grid Search XGB: {'model__n_estimators': [400, 600], 'model__max_depth': [4, 6, 8], 'model__learning_rate': [0.05, 0.1], 'model__subsample': [0.8, 1.0], 'model__colsample_bytree': [0.8, 1.0]}
-2025-12-02 15:24:54 - INFO - Mejores hiperparámetros XGB: {'model__colsample_bytree': 0.8, 'model__learning_rate': 0.1, 'model__max_depth': 4, 'model__n_estimators': 400, 'model__subsample': 1.0}
-2025-12-02 15:24:54 - INFO - CV MSE=0.0000, CV R2=1.0000
-2025-12-02 15:24:54 - INFO - Gráfico de métricas guardado en: Images\RESULTADOS\xgb_metrics.png
-2025-12-02 15:24:54 - INFO - TEST MSE=0.0000
-2025-12-02 15:24:54 - INFO - TEST R2=1.0000
-2025-12-02 15:24:54 - INFO - Comparación futura generada para 07–08/2018
-2025-12-02 15:24:54 - INFO - Modelo XGBoost guardado en: ./output/best_model_XGBOOST.pkl
-2025-12-02 15:24:54 - INFO - === FIN PIPELINE XGBOOST ===
-[2025-12-02T19:24:54.343562Z] === PIPELINE FINALIZADO ===
+[2025-12-02T21:28:26.074739Z] ============== Tablas cargadas exitosamente: {'customers': 99441, 'geolocation': 1000163, 'order_items': 112650, 'payments': 103886, 'reviews': 99224, 'orders': 99441, 'products': 32951, 'sellers': 3095, 'category_translation': 71}
+[2025-12-02T21:28:26.075736Z] ======================================= LIMPIEZA =================================
+[2025-12-02T21:28:26.075736Z] === INICIO Limpieza de tablas ===
+[2025-12-02T21:28:26.162595Z] customers: columnas de texto normalizadas -> ['customer_id', 'customer_unique_id', 'customer_city', 'customer_state']
+[2025-12-02T21:28:26.558376Z] geolocation: columnas de texto normalizadas -> ['geolocation_city', 'geolocation_state']
+[2025-12-02T21:28:26.730797Z] order_items: columnas de texto normalizadas -> ['order_id', 'product_id', 'seller_id', 'shipping_limit_date']
+[2025-12-02T21:28:26.761174Z] order_items: columnas de fecha convertidas -> ['shipping_limit_date']
+[2025-12-02T21:28:26.820285Z] payments: columnas de texto normalizadas -> ['order_id', 'payment_type']
+[2025-12-02T21:28:26.979343Z] reviews: columnas de texto normalizadas -> ['review_id', 'order_id', 'review_comment_title', 'review_comment_message', 'review_creation_date', 'review_answer_timestamp']
+[2025-12-02T21:28:27.015285Z] reviews: columnas de fecha convertidas -> ['review_creation_date', 'review_answer_timestamp']
+[2025-12-02T21:28:27.206570Z] orders: columnas de texto normalizadas -> ['order_id', 'customer_id', 'order_status', 'order_purchase_timestamp', 'order_approved_at', 'order_delivered_carrier_date', 'order_delivered_customer_date', 'order_estimated_delivery_date']
+[2025-12-02T21:28:27.289497Z] orders: columnas de fecha convertidas -> ['order_purchase_timestamp', 'order_delivered_carrier_date', 'order_delivered_customer_date', 'order_estimated_delivery_date']
+[2025-12-02T21:28:27.456142Z] products: columnas de texto normalizadas -> ['product_id', 'product_category_name']
+[2025-12-02T21:28:27.468143Z] sellers: columnas de texto normalizadas -> ['seller_id', 'seller_city', 'seller_state']
+[2025-12-02T21:28:27.471158Z] category_translation: columnas de texto normalizadas -> ['product_category_name', 'product_category_name_english']
+[2025-12-02T21:28:27.471158Z] === FIN Limpieza de tablas ===
+[2025-12-02T21:28:27.471158Z] ======================================= FEATURE ENGINEERING ======================
+[2025-12-02T21:28:27.472142Z] === INICIO Feature Engineering Avanzado ===
+[2025-12-02T21:28:27.472142Z] Cargando tablas base...
+[2025-12-02T21:28:27.966035Z] Procesando variables temporales y retrasos...
+[2025-12-02T21:28:28.153492Z] Generando features por producto...
+[2025-12-02T21:29:00.632958Z] Generando features del vendedor...
+[2025-12-02T21:29:04.312588Z] Generando features de pagos...
+[2025-12-02T21:29:05.365995Z] Generando features por cliente y reviews...
+[2025-12-02T21:29:25.966004Z] Shape total combinando todas las tablas: filas=99441, features totales=108
+[2025-12-02T21:29:25.967013Z] === FIN Feature Engineering Avanzado ===
+[2025-12-02T21:29:25.980672Z] ======================================= LIMPIEZA FEATURES ========================
+[2025-12-02T21:29:25.981656Z] === INICIO Limpieza de features ===
+[2025-12-02T21:29:26.145727Z] Valores nulos reemplazados correctamente
+[2025-12-02T21:29:30.672083Z] Boxplot guardado en: Images\DATAFRAME\boxplot_variables_numericas.png
+[2025-12-02T21:29:32.048282Z] Heatmap de correlación guardado en: Images\DATAFRAME\heatmap_correlacion.png
+[2025-12-02T21:29:32.049401Z] === FIN Limpieza de features ===
+[2025-12-02T21:29:32.050405Z] ======================================= MASTER TABLE =============================
+[2025-12-02T21:29:32.081202Z] ======================================= EXPORTACION DE MASTER TABLE ==============
+[2025-12-02T21:29:33.919548Z] Master table creada con 99441 filas y 39 columnas
+[2025-12-02T21:29:33.919548Z] ======================================= PREPROCESO MASTER TABLE ==================
+[2025-12-02T21:29:35.267981Z] ======================================= CALCULO DE METRICAS ======================
+[2025-12-02T21:29:35.268976Z] ===== CÁLCULO MÉTRICAS =====
+[2025-12-02T21:29:35.268976Z] === INICIO Cálculo de métricas de satisfacción ===
+[2025-12-02T21:29:35.269977Z] Validaciones iniciales: OK
+[2025-12-02T21:29:35.269977Z] Checkpoint 1: Validaciones completas, iniciando cálculos...
+[2025-12-02T21:29:35.571592Z] Cálculo global: total_clientes=99441, mean=4.0938, std=1.3434
+[2025-12-02T21:29:35.571592Z] Checkpoint 2: Cálculos globales completados.
+[2025-12-02T21:29:35.888974Z] Clasificación de clientes aplicada correctamente.
+[2025-12-02T21:29:35.888974Z] Checkpoint 3: Clasificación completada.
+[2025-12-02T21:29:36.197237Z] CSAT=0.7723, NPS=62.70
+[2025-12-02T21:29:36.197237Z] Checkpoint 4: Métricas CSAT & NPS completadas.
+[2025-12-02T21:29:36.510399Z] Cálculo de correlaciones completado.
+[2025-12-02T21:29:36.511387Z] Checkpoint 5: Todas las métricas calculadas correctamente.
+[2025-12-02T21:29:36.818762Z] === FIN Cálculo de métricas de satisfacción ===
+[2025-12-02T21:29:36.819756Z] ===== GRÁFICO MÉTRICAS =====
+[2025-12-02T21:29:36.820757Z] === INICIO Gráfico de métricas de satisfacción ===
+[2025-12-02T21:29:37.026138Z] Imagen guardada en ./Images/RESULTADOS/metricas_barras.png
+[2025-12-02T21:29:37.026138Z] === FIN Gráfico de métricas de satisfacción ===
+[2025-12-02T21:29:37.027602Z] ======================================= ENTRENAMIENTO DEL MODELO =================
+[2025-12-02T21:29:37.027602Z] Entrenando modelo de predicción de satisfacción...
+2025-12-02 17:29:37 - INFO - === INICIO ENTRENAMIENTO XGBOOST ===
+2025-12-02 17:29:37 - INFO - Cargado master_table. Shape: (99441, 39)
+2025-12-02 17:29:37 - INFO - ---------------- SPLIT TEMPORAL ----------------
+2025-12-02 17:29:37 - INFO - Train: (48883, 39), Test: (35195, 39), Predicción futura: (15363, 39)
+2025-12-02 17:29:37 - INFO - Grid Search XGB: {'model__n_estimators': [400, 600], 'model__max_depth': [4, 6, 8], 'model__learning_rate': [0.05, 0.1], 'model__subsample': [0.8, 1.0], 'model__colsample_bytree': [0.8, 1.0]}
+2025-12-02 17:30:16 - INFO - Mejores hiperparámetros XGB: {'model__colsample_bytree': 0.8, 'model__learning_rate': 0.1, 'model__max_depth': 4, 'model__n_estimators': 400, 'model__subsample': 1.0}
+2025-12-02 17:30:16 - INFO - CV MSE=0.0000, CV R2=1.0000
+2025-12-02 17:30:16 - INFO - Gráfico de métricas guardado en: Images\RESULTADOS\xgb_metrics.png
+2025-12-02 17:30:16 - INFO - TEST MSE=0.0000
+2025-12-02 17:30:16 - INFO - TEST R2=1.0000
+2025-12-02 17:30:18 - INFO - Archivo Excel con predicciones guardado en: output\PREDICCIONES\proyecciones_XGBoost.xlsx
+2025-12-02 17:30:18 - INFO - Comparación futura generada para 07–08/2018
+2025-12-02 17:30:18 - INFO - Modelo XGBoost guardado en: ./output/best_model_XGBOOST.pkl
+2025-12-02 17:30:18 - INFO - === FIN PIPELINE XGBOOST ===
+[2025-12-02T21:30:20.457623Z] === PIPELINE FINALIZADO ===

@@ -13,7 +13,6 @@ from sklearn.pipeline import Pipeline
 from sklearn.metrics import mean_squared_error, r2_score
 
 import joblib
-
 # =========================================================
 # XGBoost
 # =========================================================
@@ -222,6 +221,14 @@ def run_training_pipeline():
         "real": y_real_pred.values,
         "prediccion": y_pred_future
     })
+    # ---------------- GUARDAR EXCEL DE PREDICCIONES ----------------
+    output_pred_dir = Path("./output/PREDICCIONES")
+    output_pred_dir.mkdir(parents=True, exist_ok=True)
+
+    excel_path = output_pred_dir / "proyecciones_XGBoost.xlsx"
+
+    comparison_df.to_excel(excel_path, index=False)
+    write_log("INFO", f"Archivo Excel con predicciones guardado en: {excel_path}")
 
     write_log("INFO", "Comparación futura generada para 07–08/2018")
 
@@ -231,6 +238,35 @@ def run_training_pipeline():
     write_log("INFO", f"Modelo XGBoost guardado en: {model_path}")
 
     write_log("INFO", "=== FIN PIPELINE XGBOOST ===")
+
+
+    
+
+    # Ruta del archivo Excel
+    excel_path = Path("./output/PREDICCIONES/proyecciones_XGBoost.xlsx")
+
+    # Cargar datos
+    df = pd.read_excel(excel_path)
+
+    # Asegurarse de que la columna 'fecha' es tipo datetime
+    df['fecha'] = pd.to_datetime(df['fecha'])
+
+    # Crear gráfico de línea comparando 'real' vs 'prediccion'
+    plt.figure(figsize=(10, 6))
+    sns.lineplot(x='fecha', y='real', data=df, label='Real', marker='o')
+    sns.lineplot(x='fecha', y='prediccion', data=df, label='Predicción', marker='x')
+
+    plt.title('Comparación Real vs Predicción del Modelo XGBoost')
+    plt.xlabel('Fecha')
+    plt.ylabel('Valor de la Revisión')
+    plt.xticks(rotation=45)
+    plt.legend()
+    plt.tight_layout()
+
+    # Guardar gráfico
+    output_dir = Path("./Images/PREDICCIONES")
+    output_dir.mkdir(parents=True, exist_ok=True)
+    plt.savefig(output_dir / "comparacion_predicciones.png", dpi=300)
 
     return best_model, results_df, comparison_df
 

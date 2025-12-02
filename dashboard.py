@@ -74,11 +74,12 @@ st.title("Pipeline Monitor — Dashboard")
 # -------------------------
 # Crear pestañas
 # -------------------------
-tab1, tab2, tab3, tab4 = st.tabs([
+tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "Ejecución / Configuración",
     "Feature Engineering",
     "Correlación de Features",
-    "Metricas de satisfacción"
+    "Metricas de satisfacción",
+    "Comparación de REAL vs PREDICCION"
 ])
 
 # -------------------------
@@ -244,6 +245,26 @@ with tab4:
     else:
         st.warning("La carpeta Images/DATAFRAME no existe.")
 
+# -------------------------
+# PESTAÑA 5: 
+# -------------------------
+with tab5:
+    from pathlib import Path
+
+    IMAGES_FEATURES_DIR = Path("./Images/PREDICCIONES/")
+    st.subheader("Valores REALES vs PREDECIDOS")
+
+    if IMAGES_FEATURES_DIR.exists():
+        imgs = sorted([f for f in IMAGES_FEATURES_DIR.iterdir() if f.suffix.lower() in [".png", ".jpg", ".jpeg"]])
+
+        if imgs:
+            for img in imgs:
+                st.markdown(f"### {img.name}")
+                st.image(str(img))
+        else:
+            st.info("No se encontraron imágenes en Images/DATAFRAME/")
+    else:
+        st.warning("La carpeta Images/DATAFRAME no existe.")
 # -------------------------
 # Auto-refresh
 # -------------------------
